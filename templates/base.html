@@ -1,0 +1,1060 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Apna Market - India's Favorite Online Local Bazaar. Fresh groceries, fruits, desi handicrafts, daily essentials and fashion delivered fast.">
+    <title>{% block title %}Apna Market | Apna Bazaar, Ab Online{% endblock %}</title>
+
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'store/css/style.css' %}">
+
+    <style>
+        :root {
+            --primary: #ff6b00;
+            --primary-dark: #e05300;
+            --primary-light: #fff3eb;
+            --secondary: #0f172a;
+            --accent-green: #10b981;
+            --accent-green-bg: #ecfdf5;
+            --accent-red: #ef4444;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --card-bg: #ffffff;
+            --page-bg: #f8fafc;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.08);
+            --shadow-hover: 0 16px 36px rgba(255, 107, 0, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--page-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, .brand-logo {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* Top Announcement Bar */
+        .top-bar {
+            background: linear-gradient(90deg, #1e293b, #0f172a);
+            color: #f1f5f9;
+            font-size: 13px;
+            padding: 8px 16px;
+        }
+
+        .top-bar-inner {
+            width: min(1360px, 94%);
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .delivery-highlight {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fde047;
+            font-weight: 600;
+        }
+
+        .coupon-ticker {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            color: #a7f3d0;
+            font-weight: 600;
+        }
+
+        .top-bar-links {
+            display: flex;
+            gap: 16px;
+            color: #cbd5e1;
+            font-size: 12px;
+        }
+
+        .top-bar-links a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        /* Header Navigation */
+        .main-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+
+        .header-content {
+            width: min(1360px, 94%);
+            margin: auto;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 12px 0;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--secondary);
+            letter-spacing: -0.5px;
+            flex-shrink: 0;
+        }
+
+        .brand-badge {
+            background: linear-gradient(135deg, #ff8a00, #ff4500);
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            font-size: 22px;
+            box-shadow: 0 4px 14px rgba(255, 107, 0, 0.3);
+        }
+
+        .brand-logo span.highlight {
+            color: var(--primary);
+        }
+
+        /* Search Bar & Auto-Suggestions */
+        .search-container {
+            flex: 1;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+            background: #f1f5f9;
+            border: 2px solid transparent;
+            border-radius: 999px;
+            padding: 4px 6px 4px 18px;
+            transition: all 0.25s ease;
+        }
+
+        .search-form:focus-within {
+            background: #ffffff;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(255, 107, 0, 0.12);
+        }
+
+        .search-form input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: 15px;
+            color: var(--text-dark);
+            padding: 8px 4px;
+        }
+
+        .search-form button {
+            background: var(--primary);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .search-form button:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Live Suggestions Box */
+        .suggestions-dropdown {
+            position: absolute;
+            top: 105%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 16px 36px rgba(0,0,0,0.12);
+            z-index: 1050;
+            max-height: 380px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .suggestion-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 16px;
+            border-bottom: 1px solid #f8fafc;
+            transition: background 0.15s;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:hover {
+            background: #fff7ed;
+        }
+
+        .suggestion-thumb {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .suggestion-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .suggestion-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .suggestion-meta {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .suggestion-price {
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 14px;
+            margin-left: auto;
+        }
+
+        /* User & Cart Controls */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: auto;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--secondary);
+            background: transparent;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .nav-btn.primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 14px rgba(255, 107, 0, 0.25);
+        }
+
+        .nav-btn.primary:hover {
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        /* Wishlist Nav Button */
+        .wishlist-nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #e11d48;
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .wishlist-nav-btn:hover {
+            background: #ffe4e6;
+            transform: translateY(-1px);
+        }
+
+        .wishlist-badge {
+            background: #e11d48;
+            color: white;
+            font-size: 11px;
+            font-weight: 800;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            border-radius: 999px;
+            display: grid;
+            place-items: center;
+        }
+
+        /* Cart Nav Button */
+        .cart-nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #ff6b00, #ff4500);
+            color: white !important;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cart-nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
+        }
+
+        .cart-badge {
+            background: white;
+            color: var(--primary-dark);
+            font-size: 12px;
+            font-weight: 800;
+            min-width: 22px;
+            height: 22px;
+            padding: 0 6px;
+            border-radius: 999px;
+            display: grid;
+            place-items: center;
+        }
+
+        /* Account Menu Dropdown */
+        .user-dropdown {
+            position: relative;
+        }
+
+        .user-dropdown-btn {
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid #cbd5e1;
+            background: white;
+        }
+
+        .user-dropdown-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .user-menu {
+            position: absolute;
+            top: 115%;
+            right: 0;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            min-width: 190px;
+            box-shadow: var(--shadow-md);
+            display: none;
+            flex-direction: column;
+            padding: 6px 0;
+            z-index: 1050;
+        }
+
+        .user-dropdown:hover .user-menu,
+        .user-dropdown:focus-within .user-menu {
+            display: flex;
+        }
+
+        .user-menu a {
+            padding: 9px 18px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.15s;
+        }
+
+        .user-menu a:hover {
+            background: #fff7ed;
+            color: var(--primary);
+        }
+
+        .user-menu-divider {
+            height: 1px;
+            background: #f1f5f9;
+            margin: 4px 0;
+        }
+
+        /* Quick Category Bar */
+        .category-subnav {
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: none;
+        }
+
+        .category-subnav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-subnav-inner {
+            width: min(1360px, 94%);
+            margin: auto;
+            display: flex;
+            gap: 8px;
+            padding: 8px 0;
+        }
+
+        .cat-chip {
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cat-chip:hover, .cat-chip.active {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 85px;
+            right: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 420px;
+            pointer-events: none;
+        }
+
+        .toast-msg {
+            pointer-events: auto;
+            background: white;
+            border-radius: 12px;
+            padding: 14px 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border-left: 5px solid var(--primary);
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .toast-msg.success { border-left-color: #10b981; }
+        .toast-msg.error { border-left-color: #ef4444; }
+        .toast-msg.warning { border-left-color: #f59e0b; }
+        .toast-msg.info { border-left-color: #3b82f6; }
+
+        .toast-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #94a3b8;
+            font-size: 18px;
+            padding: 0 4px;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        main {
+            flex: 1;
+        }
+
+        /* Trust Banner */
+        .trust-banner {
+            background: white;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 30px 0;
+            margin-top: 40px;
+        }
+
+        .trust-grid {
+            width: min(1360px, 94%);
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .trust-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px;
+        }
+
+        .trust-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: grid;
+            place-items: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .trust-card strong {
+            display: block;
+            font-size: 15px;
+            color: var(--secondary);
+        }
+
+        .trust-card span {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 50px 0 25px;
+            font-size: 14px;
+        }
+
+        .footer-inner {
+            width: min(1360px, 94%);
+            margin: auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand h3 {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-brand p {
+            color: #94a3b8;
+            line-height: 1.6;
+            max-width: 340px;
+        }
+
+        .footer-col h4 {
+            color: white;
+            font-size: 16px;
+            margin-bottom: 18px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-col a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            width: min(1360px, 94%);
+            margin: auto;
+            padding-top: 25px;
+            border-top: 1px solid #334155;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        @media (max-width: 900px) {
+            .footer-inner {
+                grid-template-columns: 1fr 1fr;
+            }
+            .header-content {
+                flex-wrap: wrap;
+            }
+            .search-container {
+                order: 3;
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .footer-inner {
+                grid-template-columns: 1fr;
+            }
+            .top-bar {
+                display: none;
+            }
+            .brand-logo {
+                font-size: 21px;
+            }
+            .brand-badge {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+            }
+            .wishlist-text {
+                display: none;
+            }
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+    <!-- Top Announcement Bar -->
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <div class="delivery-highlight">
+                <span>⚡ Free Delivery on orders above ₹499</span>
+                <span>•</span>
+                <span>🇮🇳 Apne Shehar Ka Apna Bazaar</span>
+                {% if active_coupons %}
+                    <span class="coupon-ticker">🎉 Code: {{ active_coupons.0.code }} ({{ active_coupons.0.description }})</span>
+                {% endif %}
+            </div>
+            <div class="top-bar-links">
+                <span>📞 Helpline: 1800-APNA-MKT</span>
+                <a href="{% url 'my_orders' %}">Track Order</a>
+                <span>Cash & UPI on Delivery Available</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="header-content">
+            <a href="{% url 'home' %}" class="brand-logo">
+                <span class="brand-badge">🛒</span>
+                <span><span class="highlight">Apna</span> Market</span>
+            </a>
+
+            <!-- Search Bar with Live Suggestions Dropdown -->
+            <div class="search-container">
+                <form class="search-form" method="GET" action="{% url 'home' %}" id="search-form">
+                    <input 
+                        type="text" 
+                        name="q" 
+                        id="search-input"
+                        placeholder="Search for atta, ghee, fresh fruits, matka, kurta, dal..." 
+                        value="{{ search_query|default:'' }}"
+                        autocomplete="off"
+                    >
+                    {% if search_query %}
+                        <a href="{% url 'home' %}" style="margin-right: 8px; color: #94a3b8; font-weight: bold;" title="Clear search">✕</a>
+                    {% endif %}
+                    <button type="submit">
+                        <span>🔍</span>
+                        <span>Search</span>
+                    </button>
+                </form>
+                <div id="search-suggestions" class="suggestions-dropdown"></div>
+            </div>
+
+            <!-- User and Cart Actions -->
+            <div class="header-actions">
+                <!-- Wishlist Button -->
+                <a href="{% url 'wishlist' %}" class="wishlist-nav-btn" id="header-wishlist-btn" title="Saved Items & Wishlist">
+                    <span>❤️</span>
+                    <span class="wishlist-text">Wishlist</span>
+                    <span class="wishlist-badge" id="wishlist-badge-count">{{ global_wishlist_count|default:"0" }}</span>
+                </a>
+
+                {% if user.is_authenticated %}
+                    <!-- User Account Dropdown -->
+                    <div class="user-dropdown">
+                        <button class="user-dropdown-btn">
+                            <span>👤</span>
+                            <span>{{ user.first_name|default:user.username|truncatechars:10 }}</span>
+                            <span style="font-size: 10px; color: #94a3b8;">▼</span>
+                        </button>
+                        <div class="user-menu">
+                            <a href="{% url 'profile' %}">👤 My Profile</a>
+                            <a href="{% url 'my_orders' %}">📦 My Orders</a>
+                            <a href="{% url 'wishlist' %}">❤️ My Wishlist</a>
+                            <div class="user-menu-divider"></div>
+                            <a href="{% url 'logout' %}" style="color: #dc2626;">🚪 Logout</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-btn">
+                        <span>👤</span>
+                        <span>Login</span>
+                    </a>
+                    <a href="{% url 'signup' %}" class="nav-btn primary">
+                        <span>Sign Up</span>
+                    </a>
+                {% endif %}
+
+                <!-- Floating Cart Button with Counter -->
+                <a href="{% url 'cart' %}" class="cart-nav-btn" id="header-cart-btn">
+                    <span>🛒</span>
+                    <span>Cart</span>
+                    <span class="cart-badge" id="header-cart-count">{{ global_cart_count|default:"0" }}</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Quick Category Bar -->
+    <nav class="category-subnav">
+        <div class="category-subnav-inner">
+            <a href="{% url 'home' %}" class="cat-chip {% if not selected_category and not category %}active{% endif %}">
+                <span>🔥</span> All Categories
+            </a>
+            {% for cat in nav_categories %}
+                <a href="{% url 'category_products' cat.slug %}" class="cat-chip {% if category.slug == cat.slug or selected_category == cat.slug %}active{% endif %}">
+                    {{ cat.name }}
+                </a>
+            {% endfor %}
+        </div>
+    </nav>
+
+    <!-- Flash Messages / Toast Alerts -->
+    <div class="toast-container" id="toast-container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="toast-msg {{ message.tags }}">
+                    <div>{{ message }}</div>
+                    <button class="toast-close" onclick="this.parentElement.remove()">✕</button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Main Dynamic Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Trust Badges -->
+    <section class="trust-banner">
+        <div class="trust-grid">
+            <div class="trust-card">
+                <div class="trust-icon">⚡</div>
+                <div>
+                    <strong>Superfast Local Delivery</strong>
+                    <span>Delivered in 15 mins to same day</span>
+                </div>
+            </div>
+            <div class="trust-card">
+                <div class="trust-icon">🌱</div>
+                <div>
+                    <strong>100% Shuddh & Fresh</strong>
+                    <span>Direct from local mandis & artisans</span>
+                </div>
+            </div>
+            <div class="trust-card">
+                <div class="trust-icon">💵</div>
+                <div>
+                    <strong>Cash & UPI on Delivery</strong>
+                    <span>Pay comfortably after inspecting package</span>
+                </div>
+            </div>
+            <div class="trust-card">
+                <div class="trust-icon">🛡️</div>
+                <div>
+                    <strong>7 Days Easy Returns</strong>
+                    <span>No questions asked replacement policy</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Global Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <h3>🛒 Apna Market</h3>
+                <p>
+                    Apna Bazaar, Ab Online! Bringing your city's beloved kirana stores, fresh vegetable mandis, traditional terracotta handicrafts, and regional delicacies straight to your doorstep.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h4>Popular Categories</h4>
+                <ul>
+                    <li><a href="{% url 'category_products' 'grocery-kirana' %}">Grocery & Kirana</a></li>
+                    <li><a href="{% url 'category_products' 'fruits-vegetables' %}">Fresh Fruits & Veggies</a></li>
+                    <li><a href="{% url 'category_products' 'dairy-fresh-products' %}">Dairy & Milk</a></li>
+                    <li><a href="{% url 'category_products' 'desi-mitti-handicrafts' %}">Desi Mitti & Pottery</a></li>
+                    <li><a href="{% url 'category_products' 'clothes-fashion-category' %}">Clothes & Fashion</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Customer Support</h4>
+                <ul>
+                    <li><a href="{% url 'my_orders' %}">Track My Order</a></li>
+                    <li><a href="{% url 'wishlist' %}">Saved Wishlist</a></li>
+                    <li><a href="{% url 'cart' %}">My Shopping Cart</a></li>
+                    <li><a href="{% url 'checkout' %}">Delivery & Payment</a></li>
+                    <li><a href="mailto:support@apnamarket.in">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Why Apna Market?</h4>
+                <ul>
+                    <li>✓ Local Vendor Support</li>
+                    <li>✓ Authentic Desi Products</li>
+                    <li>✓ Best Wholesale Prices</li>
+                    <li>✓ 100% Pure & Hygienic</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div>
+                © 2026 Apna Market India Pvt. Ltd. All rights reserved. Made with ❤️ for Indian Shoppers.
+            </div>
+            <div>
+                <span>Secured with 256-bit SSL Encryption • Cash & UPI on Delivery</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Global Client JS: Live Search, Toast helper, AJAX Cart & Wishlist -->
+    <script>
+        // Global Toast Display Helper
+        window.showToast = function(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast-msg ${type}`;
+            toast.innerHTML = `<div>${message}</div><button class="toast-close" onclick="this.parentElement.remove()">✕</button>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-10px)';
+                setTimeout(() => toast.remove(), 500);
+            }, 4500);
+        };
+
+        // Auto-dismiss initial toasts
+        setTimeout(() => {
+            const toasts = document.querySelectorAll('.toast-msg');
+            toasts.forEach(toast => {
+                toast.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-10px)';
+                setTimeout(() => toast.remove(), 500);
+            });
+        }, 4500);
+
+        // Global Wishlist Toggle Helper
+        window.toggleWishlist = function(productId, btnElement) {
+            {% if not user.is_authenticated %}
+                window.location.href = "{% url 'login' %}?next=" + encodeURIComponent(window.location.pathname);
+                return;
+            {% endif %}
+
+            fetch(`/wishlist/toggle/${productId}/`, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const badge = document.getElementById('wishlist-badge-count');
+                    if (badge) badge.textContent = data.count;
+                    if (btnElement) {
+                        if (data.wishlisted) {
+                            btnElement.classList.add('active');
+                            btnElement.innerHTML = '❤️';
+                        } else {
+                            btnElement.classList.remove('active');
+                            btnElement.innerHTML = '🤍';
+                        }
+                    }
+                    window.showToast(data.message, data.wishlisted ? 'success' : 'info');
+                }
+            })
+            .catch(err => console.error('Wishlist error:', err));
+        };
+
+        // Global Add To Cart AJAX Helper
+        window.ajaxAddToCart = function(productId, quantity = 1, btnElement = null) {
+            const formData = new FormData();
+            formData.append('quantity', quantity);
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+            if (btnElement) {
+                btnElement.disabled = true;
+                const originalHtml = btnElement.innerHTML;
+                btnElement.innerHTML = 'Adding... ⏳';
+                setTimeout(() => {
+                    btnElement.disabled = false;
+                    btnElement.innerHTML = originalHtml;
+                }, 1200);
+            }
+
+            fetch(`/cart/add/${productId}/`, {
+                method: 'POST',
+                headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const badge = document.getElementById('header-cart-count');
+                    if (badge) {
+                        badge.textContent = data.cart_count;
+                        badge.style.transform = 'scale(1.4)';
+                        badge.style.transition = 'transform 0.2s ease';
+                        setTimeout(() => badge.style.transform = 'scale(1)', 250);
+                    }
+                    window.showToast(data.message, 'success');
+                } else {
+                    window.showToast(data.message || 'Could not add to cart.', 'error');
+                }
+            })
+            .catch(() => {
+                // Fallback to normal submission if network error
+                window.location.href = `/cart/add/${productId}/?quantity=${quantity}`;
+            });
+        };
+
+        // Live Search Autocomplete with 250ms Debounce
+        (function() {
+            const input = document.getElementById('search-input');
+            const box = document.getElementById('search-suggestions');
+            if (!input || !box) return;
+
+            let debounceTimer = null;
+
+            input.addEventListener('input', function() {
+                const query = this.value.trim();
+                clearTimeout(debounceTimer);
+
+                if (query.length < 2) {
+                    box.style.display = 'none';
+                    box.innerHTML = '';
+                    return;
+                }
+
+                debounceTimer = setTimeout(() => {
+                    fetch(`/api/search-suggestions/?q=${encodeURIComponent(query)}`)
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data.results && data.results.length > 0) {
+                                let html = '';
+                                data.results.forEach(item => {
+                                    const imgHtml = item.image 
+                                        ? `<img src="${item.image}" alt="${item.name}" class="suggestion-thumb">`
+                                        : `<div class="suggestion-thumb" style="display:grid;place-items:center;font-size:20px;">🛍️</div>`;
+                                    html += `
+                                        <a href="${item.url}" class="suggestion-item">
+                                            ${imgHtml}
+                                            <div class="suggestion-info">
+                                                <div class="suggestion-title">${item.name}</div>
+                                                <div class="suggestion-meta">${item.category}</div>
+                                            </div>
+                                            <div class="suggestion-price">₹${item.price}</div>
+                                        </a>
+                                    `;
+                                });
+                                box.innerHTML = html;
+                                box.style.display = 'block';
+                            } else {
+                                box.style.display = 'none';
+                                box.innerHTML = '';
+                            }
+                        })
+                        .catch(() => { box.style.display = 'none'; });
+                }, 220);
+            });
+
+            // Close on click outside
+            document.addEventListener('click', function(e) {
+                if (!input.contains(e.target) && !box.contains(e.target)) {
+                    box.style.display = 'none';
+                }
+            });
+        })();
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

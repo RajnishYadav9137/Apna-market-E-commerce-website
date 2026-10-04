@@ -1,0 +1,326 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Order #{{ order.id }} Confirmed! - Apna Market{% endblock %}
+
+{% block extra_css %}
+<style>
+    .success-wrap {
+        width: min(840px, 94%);
+        margin: 40px auto 70px;
+    }
+
+    .success-card {
+        background: white;
+        border-radius: 24px;
+        border: 1px solid var(--border-color);
+        padding: 40px;
+        box-shadow: var(--shadow-sm);
+        text-align: center;
+    }
+
+    .celebration-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: #dcfce7;
+        color: #16a34a;
+        font-size: 40px;
+        display: grid;
+        place-items: center;
+        margin: 0 auto 20px;
+        box-shadow: 0 10px 25px rgba(22, 163, 74, 0.2);
+    }
+
+    .success-title {
+        font-size: 28px;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 8px;
+    }
+
+    .success-subtitle {
+        color: #64748b;
+        font-size: 15px;
+        margin-bottom: 24px;
+        line-height: 1.5;
+    }
+
+    .tracking-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #fff3eb;
+        border: 1px solid #fed7aa;
+        color: var(--primary-dark);
+        padding: 6px 16px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 14px;
+        margin-bottom: 28px;
+    }
+
+    /* Order Tracker Bar */
+    .tracking-tracker {
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 32px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .tracker-steps {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+    }
+
+    .tracker-steps::before {
+        content: '';
+        position: absolute;
+        top: 14px;
+        left: 20px;
+        right: 20px;
+        height: 3px;
+        background: #e2e8f0;
+        z-index: 1;
+    }
+
+    .t-step {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .t-dot {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #cbd5e1;
+        color: white;
+        font-size: 14px;
+        font-weight: 700;
+        display: grid;
+        place-items: center;
+    }
+
+    .t-step.active .t-dot {
+        background: #16a34a;
+    }
+
+    .t-label {
+        font-size: 12px;
+        font-weight: 700;
+        color: #64748b;
+    }
+
+    .t-step.active .t-label {
+        color: #0f172a;
+    }
+
+    /* Summary Details Box */
+    .order-details-box {
+        background: #f8fafc;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        padding: 24px;
+        text-align: left;
+        margin-bottom: 32px;
+    }
+
+    .details-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid #e2e8f0;
+        margin-bottom: 18px;
+    }
+
+    .info-label {
+        font-size: 12px;
+        color: #64748b;
+        text-transform: uppercase;
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+
+    .info-val {
+        font-size: 15px;
+        font-weight: 700;
+        color: #0f172a;
+    }
+
+    .order-items-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .ordered-item-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        font-size: 14px;
+    }
+
+    /* CTA buttons */
+    .success-actions {
+        display: flex;
+        justify-content: center;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    .btn-action-primary {
+        background: linear-gradient(135deg, #ff6b00, #ea580c);
+        color: white !important;
+        font-weight: 700;
+        font-size: 15px;
+        padding: 13px 28px;
+        border-radius: 999px;
+        box-shadow: 0 6px 18px rgba(255, 107, 0, 0.3);
+    }
+
+    .btn-action-secondary {
+        background: white;
+        border: 1px solid #cbd5e1;
+        color: #1e293b;
+        font-weight: 700;
+        font-size: 15px;
+        padding: 13px 24px;
+        border-radius: 999px;
+    }
+
+    .btn-action-secondary:hover {
+        background: #f8fafc;
+        border-color: var(--primary);
+    }
+
+    @media (max-width: 600px) {
+        .details-row {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="success-wrap">
+    <div class="success-card">
+        <div class="celebration-icon">✓</div>
+        <h1 class="success-title">Order Confirmed!</h1>
+        <p class="success-subtitle">
+            Thank you for shopping with Apna Market. Your order <strong>#{{ order.id }}</strong> has been received and is being packed by your neighborhood store.
+        </p>
+
+        {% if order.tracking_number %}
+            <div class="tracking-badge">
+                <span>📍 Tracking Number:</span>
+                <span>{{ order.tracking_number }}</span>
+            </div>
+        {% endif %}
+
+        <!-- Tracking Timeline -->
+        <div class="tracking-tracker">
+            <div class="tracker-steps">
+                <div class="t-step active">
+                    <div class="t-dot">✓</div>
+                    <div class="t-label">Confirmed</div>
+                </div>
+                <div class="t-step {% if order.status == 'packed' or order.status == 'shipped' or order.status == 'delivered' %}active{% endif %}">
+                    <div class="t-dot">2</div>
+                    <div class="t-label">Packed</div>
+                </div>
+                <div class="t-step {% if order.status == 'shipped' or order.status == 'delivered' %}active{% endif %}">
+                    <div class="t-dot">3</div>
+                    <div class="t-label">Out for Delivery</div>
+                </div>
+                <div class="t-step {% if order.status == 'delivered' %}active{% endif %}">
+                    <div class="t-dot">4</div>
+                    <div class="t-label">Delivered</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Details Box -->
+        <div class="order-details-box">
+            <div class="details-row">
+                <div>
+                    <div class="info-label">Order ID & Date</div>
+                    <div class="info-val">Order #{{ order.id }}</div>
+                    <div style="font-size: 13px; color: #64748b; font-weight: normal; margin-top: 2px;">{{ order.created_at|date:"d M Y, h:i A" }}</div>
+                </div>
+                <div>
+                    <div class="info-label">Payment Mode</div>
+                    <div class="info-val">
+                        {{ order.get_payment_mode_display|default:order.payment_mode|upper }}
+                    </div>
+                    <div style="font-size: 13px; color: #16a34a; font-weight: 600; margin-top: 2px;">
+                        Status: {{ order.get_payment_status_display|default:"Confirmed" }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="details-row">
+                <div>
+                    <div class="info-label">Delivery Address</div>
+                    <div class="info-val">
+                        {{ order.full_name }}<br>
+                        <span style="font-weight: normal; color: #475569; font-size: 14px;">
+                            {{ order.address }}, {{ order.city }}, {{ order.state }} - {{ order.pincode }}<br>
+                            Phone: {{ order.phone }}
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <div class="info-label">Delivery Speed</div>
+                    <div class="info-val" style="color: #15803d;">⚡ Fast Local Mandi Delivery</div>
+                    <div style="font-size: 13px; color: #64748b; font-weight: normal; margin-top: 2px;">
+                        Estimated Delivery: Within 24 Hours
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ordered Items List -->
+            <div class="info-label" style="margin-bottom: 12px;">Items in this Order ({{ items|length }})</div>
+            <div class="order-items-list">
+                {% for item in items %}
+                    <div class="ordered-item-row">
+                        <div>
+                            <strong>{{ item.product_name }}</strong>
+                            <span style="color: #64748b; font-size: 13px;"> × {{ item.quantity|floatformat:0 }}</span>
+                        </div>
+                        <div style="font-weight: 700;">
+                            ₹{{ item.total_price }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 18px; padding-top: 14px; border-top: 2px dashed #e2e8f0; font-size: 18px; font-weight: 800;">
+                <span>Total Amount Paid</span>
+                <span style="color: var(--primary);">₹{{ order.total_amount }}</span>
+            </div>
+        </div>
+
+        <div class="success-actions">
+            <a href="{% url 'order_invoice' order.id %}" target="_blank" class="btn-action-secondary">
+                🖨️ View Tax Invoice
+            </a>
+            <a href="{% url 'my_orders' %}" class="btn-action-primary">
+                📦 Track in My Orders
+            </a>
+            <a href="{% url 'home' %}" class="btn-action-secondary">
+                🛍️ Continue Shopping
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

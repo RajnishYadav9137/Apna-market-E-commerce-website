@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Wishlist & Saved Items - Apna Market{% endblock %}
+
+{% block extra_css %}
+<style>
+    .wishlist-wrap {
+        width: min(1200px, 94%);
+        margin: 36px auto 60px;
+    }
+
+    .wishlist-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 28px;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .wishlist-title {
+        font-size: 28px;
+        font-weight: 800;
+        color: #0f172a;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .wishlist-count-pill {
+        background: #ffe4e6;
+        color: #e11d48;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 4px 12px;
+        border-radius: 999px;
+    }
+
+    .wishlist-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 24px;
+    }
+
+    .wishlist-card {
+        background: white;
+        border-radius: 20px;
+        border: 1px solid var(--border-color);
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .wishlist-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
+        border-color: #fecdd3;
+    }
+
+    .btn-remove-wishlist {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid #fecdd3;
+        color: #e11d48;
+        font-size: 16px;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        z-index: 5;
+        transition: all 0.2s;
+    }
+
+    .btn-remove-wishlist:hover {
+        background: #ffe4e6;
+        transform: scale(1.1);
+    }
+
+    .wishlist-thumb {
+        width: 100%;
+        height: 180px;
+        border-radius: 14px;
+        background: #f8fafc;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 12px;
+    }
+
+    .wishlist-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .wishlist-cat {
+        font-size: 12px;
+        color: #64748b;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+    }
+
+    .wishlist-name {
+        font-size: 15px;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+
+    .wishlist-price-row {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        margin-top: auto;
+        margin-bottom: 14px;
+    }
+
+    .wishlist-price {
+        font-size: 18px;
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    .wishlist-mrp {
+        font-size: 13px;
+        color: #94a3b8;
+        text-decoration: line-through;
+    }
+
+    .wishlist-discount {
+        font-size: 11px;
+        font-weight: 700;
+        color: #16a34a;
+        background: #dcfce7;
+        padding: 2px 6px;
+        border-radius: 4px;
+    }
+
+    .btn-move-cart {
+        width: 100%;
+        background: linear-gradient(135deg, #ff6b00, #ea580c);
+        color: white;
+        border: none;
+        padding: 10px 0;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        transition: transform 0.15s;
+    }
+
+    .btn-move-cart:hover {
+        transform: translateY(-2px);
+    }
+
+    .btn-move-cart:disabled {
+        background: #cbd5e1;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    /* Empty state */
+    .empty-wishlist {
+        background: white;
+        border-radius: 20px;
+        border: 1px solid var(--border-color);
+        padding: 60px 20px;
+        text-align: center;
+        max-width: 600px;
+        margin: 40px auto;
+    }
+
+    .empty-icon {
+        font-size: 64px;
+        margin-bottom: 16px;
+    }
+
+    .empty-title {
+        font-size: 22px;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 8px;
+    }
+
+    .empty-desc {
+        color: #64748b;
+        font-size: 15px;
+        margin-bottom: 24px;
+    }
+
+    .btn-shop-now {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--primary);
+        color: white;
+        padding: 12px 28px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 15px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="wishlist-wrap">
+    <div class="wishlist-header">
+        <div>
+            <h1 class="wishlist-title">
+                <span>❤️</span> My Saved Items & Wishlist
+                <span class="wishlist-count-pill">{{ wishlist_items|length }} item{{ wishlist_items|length|pluralize }}</span>
+            </h1>
+            <p style="color: #64748b; font-size: 14px; margin-top: 4px;">Items you've saved to buy later from your favorite local stores</p>
+        </div>
+        <div>
+            <a href="{% url 'home' %}" style="color: var(--primary); font-weight: 700; font-size: 14px;">← Continue Shopping</a>
+        </div>
+    </div>
+
+    {% if wishlist_items %}
+        <div class="wishlist-grid">
+            {% for item in wishlist_items %}
+                {% with product=item.product %}
+                    <div class="wishlist-card">
+                        <!-- Remove button -->
+                        <a href="{% url 'toggle_wishlist' product.id %}" class="btn-remove-wishlist" title="Remove from wishlist">✕</a>
+
+                        <!-- Product Thumbnail -->
+                        <a href="{% url 'product_detail' product.id %}" class="wishlist-thumb">
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            {% else %}
+                                <span style="font-size: 40px;">🛍️</span>
+                            {% endif %}
+                        </a>
+
+                        <div class="wishlist-cat">{{ product.category.name }}</div>
+
+                        <a href="{% url 'product_detail' product.id %}" class="wishlist-name">
+                            {{ product.name|truncatechars:45 }}
+                        </a>
+
+                        <div class="wishlist-price-row">
+                            <span class="wishlist-price">₹{{ product.discounted_price }}</span>
+                            {% if product.discount > 0 %}
+                                <span class="wishlist-mrp">₹{{ product.price }}</span>
+                                <span class="wishlist-discount">{{ product.discount|floatformat:0 }}% OFF</span>
+                            {% endif %}
+                        </div>
+
+                        {% if product.stock > 0 and product.is_available %}
+                            <form method="POST" action="{% url 'move_wishlist_to_cart' product.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-move-cart">
+                                    <span>🛒</span> Move to Cart
+                                </button>
+                            </form>
+                        {% else %}
+                            <button type="button" class="btn-move-cart" disabled>
+                                Out of Stock
+                            </button>
+                        {% endif %}
+                    </div>
+                {% endwith %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-wishlist">
+            <div class="empty-icon">🤍</div>
+            <h2 class="empty-title">Your Wishlist is Empty</h2>
+            <p class="empty-desc">Explore our fresh mandis, daily essentials, and local handicrafts. Click the heart icon on any product to save it here!</p>
+            <a href="{% url 'home' %}" class="btn-shop-now">
+                <span>🛒</span> Start Exploring Apna Market
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Apna Market - Apna Bazaar, Ab Online</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f6f8;
+            color: #222;
+        }
+
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        header {
+            background: #ffffff;
+            padding: 16px 6%;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            border-bottom: 1px solid #e5e5e5;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+
+        .logo span {
+            color: #e85d04;
+        }
+
+
+        /* =====================================================
+           SEARCH
+        ===================================================== */
+
+        .search {
+            flex: 1;
+        }
+
+
+        .search input {
+            width: 100%;
+            padding: 13px 18px;
+            border: 1px solid #d5d5d5;
+            border-radius: 9px;
+            font-size: 15px;
+            outline: none;
+        }
+
+
+        .search input:focus {
+            border-color: #e85d04;
+        }
+
+
+        /* =====================================================
+           HEADER ACTIONS
+        ===================================================== */
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+
+        .header-btn {
+            display: inline-block;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #e85d04;
+            color: #e85d04;
+            background: white;
+            font-weight: bold;
+            white-space: nowrap;
+            transition: 0.2s;
+        }
+
+
+        .header-btn:hover {
+            background: #fff0e5;
+        }
+
+
+        .header-btn.signup {
+            background: #e85d04;
+            color: white;
+        }
+
+
+        .header-btn.signup:hover {
+            background: #cf5204;
+        }
+
+
+        .header-cart {
+            display: inline-block;
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: #f3f3f3;
+            font-weight: bold;
+            white-space: nowrap;
+            transition: 0.2s;
+        }
+
+
+        .header-cart:hover {
+            background: #e9e9e9;
+        }
+
+
+        /* =====================================================
+           HERO
+        ===================================================== */
+
+        .hero {
+            margin: 25px 6%;
+            padding: 55px;
+            border-radius: 18px;
+
+            background: linear-gradient(
+                120deg,
+                #fff0e5,
+                #fff8f2
+            );
+        }
+
+
+        .hero h1 {
+            font-size: 44px;
+            line-height: 1.15;
+            margin-bottom: 16px;
+        }
+
+
+        .hero h1 span {
+            color: #e85d04;
+        }
+
+
+        .hero p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #555;
+            max-width: 700px;
+        }
+
+
+        .hero-buttons {
+            margin-top: 25px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+
+        .hero-btn {
+            background: #e85d04;
+            color: white;
+            padding: 13px 22px;
+            border-radius: 8px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+
+        .hero-btn:hover {
+            background: #cf5204;
+        }
+
+
+        /* =====================================================
+           SECTIONS
+        ===================================================== */
+
+        .section {
+            margin: 38px 6%;
+        }
+
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+
+        .section-heading h2 {
+            font-size: 25px;
+        }
+
+
+        /* =====================================================
+           CATEGORIES
+        ===================================================== */
+
+        .categories {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fill, minmax(160px, 1fr));
+
+            gap: 16px;
+        }
+
+
+        .category {
+            background: white;
+            padding: 25px 15px;
+            border-radius: 13px;
+            text-align: center;
+            border: 1px solid #eeeeee;
+            transition: 0.2s;
+        }
+
+
+        .category:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 8px 22px rgba(0, 0, 0, 0.08);
+        }
+
+
+        .category-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+
+        .category h3 {
+            font-size: 16px;
+        }
+
+
+        /* =====================================================
+           PRODUCTS
+        ===================================================== */
+
+        .products {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fill, minmax(215px, 1fr));
+
+            gap: 20px;
+        }
+
+
+        .product {
+            background: white;
+            border-radius: 13px;
+            overflow: hidden;
+            border: 1px solid #eeeeee;
+            transition: 0.2s;
+        }
+
+
+        .product:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 8px 22px rgba(0, 0, 0, 0.08);
+        }
+
+
+        .product-image {
+            height: 210px;
+            background: #eeeeee;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 65px;
+        }
+
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+
+        .product-info {
+            padding: 17px;
+        }
+
+
+        .product-info h3 {
+            margin-bottom: 8px;
+            font-size: 17px;
+        }
+
+
+        .category-name {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+
+        .unit {
+            color: #777;
+            font-size: 13px;
+            font-weight: normal;
+        }
+
+
+        .discount {
+            color: #16803c;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+
+        /* =====================================================
+           EMPTY
+        ===================================================== */
+
+        .empty {
+            background: white;
+            padding: 35px;
+            text-align: center;
+            border-radius: 12px;
+            color: #666;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        footer {
+            margin-top: 60px;
+            padding: 40px 6%;
+            background: #222;
+            color: white;
+            text-align: center;
+        }
+
+
+        footer p {
+            margin-top: 10px;
+            color: #bbb;
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 700px) {
+
+            header {
+                flex-wrap: wrap;
+                padding: 14px 5%;
+            }
+
+
+            .search {
+                order: 3;
+                flex-basis: 100%;
+            }
+
+
+            .header-actions {
+                gap: 4px;
+            }
+
+
+            .header-btn,
+            .header-cart {
+                padding: 8px;
+                font-size: 13px;
+            }
+
+
+            .hero {
+                margin: 18px 5%;
+                padding: 35px 25px;
+            }
+
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+
+            .hero p {
+                font-size: 16px;
+            }
+
+
+            .section {
+                margin: 30px 5%;
+            }
+
+
+            .categories {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .products {
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+                gap: 12px;
+            }
+
+
+            .product-image {
+                height: 160px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header>
+
+
+    <!-- LOGO -->
+
+    <a href="/" class="logo">
+
+        🛒 <span>Apna</span> Market
+
+    </a>
+
+
+    <!-- SEARCH -->
+
+    <div class="search">
+
+        <input
+            type="text"
+            placeholder="Search grocery, fruits, clothes, products..."
+        >
+
+    </div>
+
+
+    <!-- ACCOUNT + CART -->
+
+    <div class="header-actions">
+
+
+        {% if user.is_authenticated %}
+
+
+            <!-- MY ORDERS -->
+
+            <a
+                href="{% url 'my_orders' %}"
+                class="header-btn"
+            >
+                📦 My Orders
+            </a>
+
+
+            <!-- LOGOUT -->
+
+            <a
+                href="{% url 'logout' %}"
+                class="header-btn"
+            >
+                Logout
+            </a>
+
+
+        {% else %}
+
+
+            <!-- LOGIN -->
+
+            <a
+                href="{% url 'login' %}"
+                class="header-btn"
+            >
+                Login
+            </a>
+
+
+            <!-- SIGN UP -->
+
+            <a
+                href="{% url 'signup' %}"
+                class="header-btn signup"
+            >
+                Sign Up
+            </a>
+
+
+        {% endif %}
+
+
+        <!-- CART -->
+
+        <a
+            href="{% url 'cart' %}"
+            class="header-cart"
+        >
+            🛒 Cart
+        </a>
+
+
+    </div>
+
+
+</header>
+
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+
+    <h1>
+
+        Apna Bazaar,<br>
+
+        <span>Ab Online</span>
+
+    </h1>
+
+
+    <p>
+
+        Grocery, fruits & vegetables, clothes,
+        mitti ke bartan, desi products aur
+        rozmarra ka samaan — sab ek jagah.
+
+    </p>
+
+
+    <div class="hero-buttons">
+
+
+        <a
+            href="#categories"
+            class="hero-btn"
+        >
+            Shop Now
+        </a>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================================================
+     CATEGORIES
+========================================================= -->
+
+<section
+    class="section"
+    id="categories"
+>
+
+
+    <div class="section-heading">
+
+        <h2>
+            Shop by Category
+        </h2>
+
+    </div>
+
+
+    <div class="categories">
+
+
+        {% for category in categories %}
+
+
+            <a
+                href="{% url 'category_products' category.slug %}"
+                class="category"
+            >
+
+
+                <div class="category-icon">
+
+                    🛍️
+
+                </div>
+
+
+                <h3>
+
+                    {{ category.name }}
+
+                </h3>
+
+
+            </a>
+
+
+        {% empty %}
+
+
+            <div class="empty">
+
+                <p>
+                    No categories available.
+                </p>
+
+            </div>
+
+
+        {% endfor %}
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================================================
+     PRODUCTS
+========================================================= -->
+
+<section class="section">
+
+
+    <div class="section-heading">
+
+        <h2>
+            Latest Products
+        </h2>
+
+    </div>
+
+
+    <div class="products">
+
+
+        {% for product in products %}
+
+
+            <a
+                href="{% url 'product_detail' product.id %}"
+                class="product"
+            >
+
+
+                <div class="product-image">
+
+
+                    {% if product.image %}
+
+
+                        <img
+                            src="{{ product.image.url }}"
+                            alt="{{ product.name }}"
+                        >
+
+
+                    {% else %}
+
+
+                        🛍️
+
+
+                    {% endif %}
+
+
+                </div>
+
+
+                <div class="product-info">
+
+
+                    <h3>
+
+                        {{ product.name }}
+
+                    </h3>
+
+
+                    <div class="category-name">
+
+                        {{ product.category.name }}
+
+                    </div>
+
+
+                    <div class="price">
+
+                        ₹{{ product.price }}
+
+                        <span class="unit">
+
+                            / {{ product.unit }}
+
+                        </span>
+
+                    </div>
+
+
+                    {% if product.discount > 0 %}
+
+
+                        <div class="discount">
+
+                            {{ product.discount }}% OFF
+
+                        </div>
+
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </a>
+
+
+        {% empty %}
+
+
+            <div class="empty">
+
+                <p>
+                    No products available.
+                </p>
+
+            </div>
+
+
+        {% endfor %}
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+
+    <h2>
+
+        🛒 Apna Market
+
+    </h2>
+
+
+    <p>
+
+        Apne shehar ka apna online market.
+
+    </p>
+
+
+</footer>
+
+
+</body>
+
+</html>
